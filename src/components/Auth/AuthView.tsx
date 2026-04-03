@@ -277,7 +277,7 @@ const AuthView: React.FC = () => {
           )}
 
           {step === 'methods' && (
-            <div className="flex flex-col" style={{ gap: '12px' }}>
+            <div className="flex flex-col" style={{ gap: '24px' }}>
               {/* Phone Login Btn */}
               <button
                 onClick={() => setStep('phone')}
@@ -294,7 +294,7 @@ const AuthView: React.FC = () => {
                   fontSize: 'var(--text-base)',
                   fontWeight: 'var(--font-weight-medium)',
                   letterSpacing: '-0.2px',
-                  boxShadow: '0 2px 8px rgba(43,125,142,0.2)',
+                  border: '0.5px solid rgba(0,0,0,0.1)',
                   transition: 'all 0.15s ease-in-out',
                   cursor: 'pointer',
                 }}
@@ -347,10 +347,11 @@ const AuthView: React.FC = () => {
                   padding: '14px 20px',
                   borderRadius: '14px',
                   backgroundColor: 'var(--black)',
+                  border: '0.5px solid rgba(0,0,0,0.1)',
                   color: 'var(--white)',
                   fontSize: 'var(--text-base)',
                   fontWeight: 'var(--font-weight-medium)',
-                  letterSpacing: '0.2px', // Apple has +0.2px letterSpacing
+                  letterSpacing: '-0.2px', // Normalize letterSpacing
                   transition: 'all 0.15s ease-in-out',
                   cursor: 'pointer',
                 }}
