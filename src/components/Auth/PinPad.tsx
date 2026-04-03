@@ -27,6 +27,7 @@ const NumpadButton: React.FC<{ value: string | number; onClick: (value: string) 
       justifyContent: 'center',
       cursor: 'pointer',
       transition: 'all 0.15s ease-in-out',
+      margin: '8px',
       // ":hover": { backgroundColor: isCancel ? 'rgba(0,0,0,0.12)' : 'var(--cis-green)', color: isCancel ? 'inherit' : 'var(--white)' },
       // ":active": { transform: "scale(0.95)" },
       // ":disabled": { opacity: 0.5 },

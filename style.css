@@ -1,6 +1,6 @@
 :root {
   /* Colors */
-  --auth-bg: #f5f5f7;
+  --auth-bg: #CCCCCC;
   --cis-primary-blue: #2B7D8E; /* Based on shadow/stroke in .pen */
   --cis-green: #277069; /* Based on Security Notice fill/stroke */
   --cis-red: #A53E37; /* Based on error alert in SDD */
