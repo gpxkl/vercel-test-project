@@ -11,7 +11,11 @@ interface RegisterData {
   verificationCode: string;
 }
 
-const AuthView: React.FC = () => {
+interface AuthViewProps {
+  onNavigate: (page: 'auth' | 'terms' | 'privacy') => void;
+}
+
+const AuthView: React.FC<AuthViewProps> = ({ onNavigate }) => {
   const { login, isAuthenticated } = useAuth();
   const [step, setStep] = useState<AuthStep>('methods');
   const [loading, setLoading] = useState<boolean>(false);
@@ -649,7 +653,7 @@ const AuthView: React.FC = () => {
               lineHeight: '1.4',
             }}
           >
-            登入即表示您同意我們的 <a href="#" style={{ color: 'var(--cis-primary-blue)', textDecoration: 'none' }}>服務條款</a> 和 <a href="#" style={{ color: 'var(--cis-primary-blue)', textDecoration: 'none' }}>隱私政策</a>
+            登入即表示您同意我們的 <a onClick={() => onNavigate('terms')} style={{ color: 'var(--cis-primary-blue)', textDecoration: 'none', cursor: 'pointer' }}>服務條款</a> 和 <a onClick={() => onNavigate('privacy')} style={{ color: 'var(--cis-primary-blue)', textDecoration: 'none', cursor: 'pointer' }}>隱私政策</a>
           </p>
         </div>
       </div>
