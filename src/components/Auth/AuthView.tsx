@@ -354,6 +354,8 @@ const AuthView: React.FC = () => {
                   letterSpacing: '-0.2px', // Normalize letterSpacing
                   transition: 'all 0.15s ease-in-out',
                   cursor: 'pointer',
+                  marginTop: '20px',
+                  marginBottom: '20px',
                 }}
               >
                 <i className="lucide lucide-apple" style={{ width: '20px', height: '20px' }}></i>
