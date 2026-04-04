@@ -55,7 +55,6 @@ const FeedView: React.FC = () => {
               likes={234}
               comments={45}
               postType="image"
-              imageAlt="Delicious steak at a restaurant"
             />
           </div>
         </div>

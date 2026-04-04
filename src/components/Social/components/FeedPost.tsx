@@ -10,10 +10,9 @@ interface FeedPostProps {
   comments: number;
   postType: 'code' | 'image';
   code?: { line1: string; line2: string; line3: string; };
-  imageAlt?: string;
 }
 
-const FeedPost: React.FC<FeedPostProps> = ({ avatarColor, userName, timeAgo, content, likes, comments, postType, code, imageAlt }) => {
+const FeedPost: React.FC<FeedPostProps> = ({ avatarColor, userName, timeAgo, content, likes, comments, postType, code }) => {
   return (
     <div className="flex flex-col p-4 gap-3 bg-[var(--card)] rounded-2xl border border-[var(--border)]">
       <div className="flex items-center gap-2">

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /*
   This file defines CSS variables for the application's theme.
   It should be imported into your main CSS entry point (e.g., index.css or App.css).
