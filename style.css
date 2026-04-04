@@ -1,103 +1,304 @@
+/* General Styles */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #fff;
+    font-family: sans-serif;
+    background-color: #ECE9E2;
 }
 
-.container {
-    width: 100%;
-    max-width: 960px; /* Typical desktop width */
+.feed-view {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ECE9E2;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    height: 92px;
+    background-color: #ECE9E2;
+    border-bottom: 1px solid #D1CFC9;
+}
+
+.top-bar span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1A1A1A;
+}
+
+.top-bar .spacer {
+    flex-grow: 1;
+    height: 1px; /* To make it visible for debugging, otherwise 1px height is fine */
+}
+
+/* Content Row */
+.content-row {
+    display: flex;
+    flex-grow: 1;
+}
+
+/* Nav Tabs */
+.nav-tabs {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    width: 80px;
+    padding: 16px 0;
+    gap: 24px;
+    border-right: 1px solid #D1CFC9;
 }
 
-.header {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px 0;
+.nav-tabs .lucide-icon {
+    width: 24px;
+    height: 24px;
+    color: #6B7280;
 }
 
-.header-link {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #333;
-    font-size: 13px;
+.nav-tabs .lucide-icon.active,
+.nav-tabs .nav-text.active {
+    color: #3B82F6;
 }
 
-.header-link:hover {
-    color: #4e6ef2;
+.nav-tabs .nav-text {
+    font-size: 10px;
+    color: #6B7280;
 }
 
-.login-link {
-    background-color: #4e6ef2;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 3px;
-}
-
-.login-link:hover {
-    background-color: #4662d9;
-}
-
-.main-content {
+/* Chat List */
+.chat-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-    padding: 50px 0;
+    width: 420px;
+    background-color: #ECE9E2;
 }
 
-.baidu-logo {
-    width: 270px; /* Adjust as needed */
-    margin-bottom: 30px;
-}
-
-.search-box {
+.chat-list-header {
     display: flex;
-    border: 1px solid #c4c7ce;
-    border-radius: 25px;
-    height: 36px;
-    width: 540px; /* Adjust as needed */
-    overflow: hidden;
+    align-items: center;
+    padding: 0 16px;
+    height: 56px;
+    border-bottom: 1px solid #D1CFC9;
 }
 
-.search-input {
+.chat-list-header span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1A1A1A;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    height: 72px;
+    gap: 12px;
+    border-bottom: 1px solid #D1CFC9;
+}
+
+.chat-item .ellipse {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #D1CFC9;
+}
+
+.chat-info {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
-    border: none;
-    padding: 0 15px;
-    outline: none;
-    font-size: 16px;
+    gap: 4px;
 }
 
-.search-button {
-    background-color: #4e6ef2;
-    color: #fff;
-    border: none;
-    padding: 0 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+.chat-info .user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1A1A1A;
 }
 
-.search-button:hover {
-    background-color: #4662d9;
-}
-
-.footer {
-    width: 100%;
-    text-align: center;
-    color: #999;
+.chat-info .last-message {
     font-size: 12px;
-    padding: 20px 0;
-    position: absolute;
-    bottom: 0;
+    color: #6B7280;
+}
+
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    padding: 16px 0;
+    gap: 20px;
+    background-color: #ECE9E2CC;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+.sidebar .lucide-icon {
+    width: 24px;
+    height: 24px;
+    color: #6B7280;
+}
+
+/* Content */
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: #FFFFFF;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    height: 56px;
+    border-bottom: 1px solid #D1CFC9;
+}
+
+.content-header span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1A1A1A;
+}
+
+.tab-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background-color: #F3F4F6;
+}
+
+.tab.active {
+    background-color: #3B82F6;
+}
+
+.tab span {
+    font-size: 13px;
+    color: #6B7280;
+}
+
+.tab.active span {
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+/* Feed */
+.feed {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 16px;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid #D1CFC9;
+    padding: 16px;
+    gap: 12px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.post-avatar.blue {
+    background-color: #3B82F6;
+}
+
+.post-avatar.orange {
+    background-color: #F59E0B;
+}
+
+.post-username {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1A1A1A;
+}
+
+.post-time {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.post-text {
+    font-size: 14px;
+    color: #1A1A1A;
+    line-height: 1.5;
+}
+
+.code-block {
+    background-color: #1E293B;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.code-line {
+    font-family: monospace;
+    font-size: 12px;
+    color: #E2E8F0;
+}
+
+.code-line.highlight {
+    color: #A5F3FC;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 160px;
+    background-color: #F3F4F6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-placeholder .lucide-icon {
+    width: 32px;
+    height: 32px;
+    color: #D1CFC9;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.post-actions span {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.post-actions .lucide-icon {
+    width: 14px;
+    height: 14px;
+    color: #6B7280;
 }

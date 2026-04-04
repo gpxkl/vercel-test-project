@@ -1,8 +1,8 @@
-document.getElementById('search-button').addEventListener('click', function() {
-    const searchTerm = document.getElementById('search-input').value;
-    if (searchTerm) {
-        alert('您搜索的内容是: ' + searchTerm);
+// This script is for Lucide Icons to render correctly.
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
     } else {
-        alert('请输入搜索内容');
+        console.error('Lucide library not loaded. Make sure the CDN link is correct.');
     }
 });

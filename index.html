@@ -1,33 +1,116 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>百度一下，你就知道</title>
+    <title>Feed View</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/lucide@latest/font/lucide.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <a href="#" class="header-link">新闻</a>
-            <a href="#" class="header-link">hao123</a>
-            <a href="#" class="header-link">地图</a>
-            <a href="#" class="header-link">视频</a>
-            <a href="#" class="header-link">贴吧</a>
-            <a href="#" class="header-link">学术</a>
-            <a href="#" class="header-link login-link">登录</a>
-            <a href="#" class="header-link settings-link">设置</a>
-            <a href="#" class="header-link more-products-link">更多产品</a>
+    <div class="feed-view">
+        <div class="top-bar">
+            <span class="level">LV80</span>
+            <div class="spacer"></div>
+            <span class="gp">GP200</span>
+            <div class="spacer"></div>
+            <span class="exp">EXP</span>
         </div>
-        <div class="main-content">
-            <img src="https://www.baidu.com/img/PCfb_5bf082d2964cd41f05bef16164f9b2d8.png" alt="Baidu Logo" class="baidu-logo">
-            <div class="search-box">
-                <input type="text" id="search-input" class="search-input" placeholder="请输入搜索内容">
-                <button id="search-button" class="search-button">百度一下</button>
+        <div class="content-row">
+            <div class="nav-tabs">
+                <i data-lucide="home" class="lucide-icon"></i>
+                <i data-lucide="message-circle" class="lucide-icon"></i>
+                <i data-lucide="rss" class="lucide-icon active"></i>
+                <span class="nav-text active">動態</span>
+                <i data-lucide="user" class="lucide-icon"></i>
+                <i data-lucide="settings" class="lucide-icon"></i>
             </div>
-        </div>
-        <div class="footer">
-            <p>&copy;2026 Baidu (京)-经营性-20220000 京公网安备11000002000001号</p>
+            <div class="chat-list">
+                <div class="chat-list-header">
+                    <span>聊天列表</span>
+                </div>
+                <div class="chat-item">
+                    <div class="ellipse"></div>
+                    <div class="chat-info">
+                        <span class="user-name">用戶A</span>
+                        <span class="last-message">最近在做什麼項目？</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <div class="ellipse"></div>
+                    <div class="chat-info">
+                        <span class="user-name">用戶B</span>
+                        <span class="last-message">明天一起吃飯嗎？</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <div class="ellipse"></div>
+                    <div class="chat-info">
+                        <span class="user-name">用戶C</span>
+                        <span class="last-message">已收到，謝謝！</span>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <i data-lucide="plus-circle" class="lucide-icon"></i>
+                <i data-lucide="search" class="lucide-icon"></i>
+                <i data-lucide="bell" class="lucide-icon"></i>
+                <i data-lucide="bookmark" class="lucide-icon"></i>
+            </div>
+            <div class="content">
+                <div class="content-header">
+                    <span>社交動態</span>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab active">
+                        <span>推薦</span>
+                    </div>
+                    <div class="tab">
+                        <span>關注</span>
+                    </div>
+                    <div class="tab">
+                        <span>最新</span>
+                    </div>
+                </div>
+                <div class="feed">
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-avatar blue"></div>
+                            <span class="post-username">Tech達人</span>
+                            <div class="spacer"></div>
+                            <span class="post-time">3h</span>
+                        </div>
+                        <p class="post-text">分享一個超棒的 TypeScript 技巧，讓你的代碼更加簡潔高效！</p>
+                        <div class="code-block">
+                            <span class="code-line">const result = items</span>
+                            <span class="code-line highlight">  .filter(Boolean),</span>
+                            <span class="code-line highlight">  .map(transform);</span>
+                        </div>
+                        <div class="post-actions">
+                            <span class="likes">❤️ 456</span>
+                            <span class="comments">💬 78</span>
+                            <i data-lucide="share" class="lucide-icon"></i>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-avatar orange"></div>
+                            <span class="post-username">美食博主</span>
+                            <div class="spacer"></div>
+                            <span class="post-time">5h</span>
+                        </div>
+                        <p class="post-text">週末美食推薦！這家餐廳的牛排真的太好吃了，強烈推薦給大家～</p>
+                        <div class="image-placeholder">
+                            <i data-lucide="image" class="lucide-icon"></i>
+                        </div>
+                        <div class="post-actions">
+                            <span class="likes">❤️ 234</span>
+                            <span class="comments">💬 45</span>
+                            <i data-lucide="share" class="lucide-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
