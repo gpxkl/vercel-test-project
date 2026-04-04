@@ -1,34 +1,26 @@
 import React from 'react';
 import TopBar from './components/TopBar';
-// import NavTabs from \'./components/NavTabs\'; // Temporarily commented out
+import NavTabs from './components/NavTabs';
 import ChatList from './components/ChatList';
-// import Sidebar from \'./components/Sidebar\'; // Temporarily commented out
+import Sidebar from './components/Sidebar';
+import ContentHeader from './components/ContentHeader'; // Will create this component next
 
 import TabBar from './components/TabBar';
 import FeedPost from './components/FeedPost';
 
 const FeedView: React.FC = () => {
   return (
-    <div className="flex flex-col h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <div className="flex flex-col h-screen bg-[#ECE9E2] text-[var(--foreground)]">
       <TopBar />
-
-      {/* Main Navigation Tabs */}
-      <div className="flex items-center h-14 px-6 border-b border-[var(--border)] bg-[var(--background)]">
-        <div className="flex-1 flex gap-6">
-          <span className="text-base font-bold text-[var(--primary)] cursor-pointer">動態</span>
-          <span className="text-base text-[var(--muted-foreground)] cursor-pointer">聊天列表</span>
-          <span className="text-base text-[var(--muted-foreground)] cursor-pointer">社交動態</span>
-        </div>
-      </div>
 
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Chat List Section */}
+        <NavTabs />
         <ChatList />
+        <Sidebar />
 
-        {/* Social Feed Section */}
-        <div className="flex flex-col flex-1 overflow-hidden bg-[var(--card)]">
-          
+        {/* Social Feed Section */}        <div className="flex flex-col flex-1 overflow-hidden bg-[#FFFFFF]">
+          <ContentHeader />
           <TabBar />
 
           {/* Feed Posts */}
