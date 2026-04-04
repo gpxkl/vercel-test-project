@@ -1,0 +1,17 @@
+/*
+  This file defines CSS variables for the application's theme.
+  It should be imported into your main CSS entry point (e.g., index.css or App.css).
+*/
+
+:root {
+  --background: #ECE9E2;
+  --foreground: #2B2F3A;
+  --primary: #2B7D8E;
+  --secondary: #CD180B;
+  --destructive: #A53E37;
+  --muted: #DED6D3;
+  --muted-foreground: rgba(0,0,0,0.5);
+  --border: #D1CFC9; /* Changed to match PEN for topbar/chatlist/post borders */
+  --cis-glass-white: rgba(255,255,255,0.6);
+  --card: #FFFFFF; /* Added for MediaCard background as per SDD section 2.2.C6 */
+}
