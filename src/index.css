@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ECE9E2;
+  --foreground: #1A1A1A;
+  --primary: #2B7D8E;
+  --muted-foreground: #7E869E;
+  --border: #D1D5DB;
+  --border-rgb: 209, 213, 219;
+  --muted: #DED6D3;
+  --muted-rgb: 222, 214, 211;
+  --input-background: #E7DECD;
+  --cis-white: #FFFFFF;
+  --cis-red: #A53E37; /* Example red, adjust if specific value found in SDD */
+  --cis-green: #37A53E; /* Example green */
+  --cis-purple: #8D3B63; /* Example purple */
+  --cis-online: #37A53E; /* Example online green */
+  --cis-pin-active: #2B7D8E; /* Example pin active color, often primary */
+  --cis-voice-live: #E94C89; /* Example voice live pink */
+  --cis-blue: #007bff;
+
+  --text-label: 12px; /* Approx 12-13px as per SDD */
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+}
