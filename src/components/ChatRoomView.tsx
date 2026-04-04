@@ -12,7 +12,7 @@ const ChatRoomView: React.FC = () => {
       <CisChatList />
       <div className="flex flex-col flex-grow">
         <CisHeader />
-        <div className="flex flex-col flex-grow gap-4 p-6 overflow-y-auto">
+        <div className="flex flex-col flex-grow gap-4 py-6 px-0 overflow-y-auto">
           <CisMessageBubble 
             sender="Alice" 
             content="Hey everyone! Welcome to the General Chat!" 
