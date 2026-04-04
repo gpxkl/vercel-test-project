@@ -1,11 +1,11 @@
-import React from \'react\';
-import TopBar from \'./components/TopBar\';
+import React from 'react';
+import TopBar from './components/TopBar';
 // import NavTabs from \'./components/NavTabs\'; // Temporarily commented out
-import ChatList from \'./components/ChatList\';
+import ChatList from './components/ChatList';
 // import Sidebar from \'./components/Sidebar\'; // Temporarily commented out
 
-import TabBar from \'./components/TabBar\';
-import FeedPost from \'./components/FeedPost\';
+import TabBar from './components/TabBar';
+import FeedPost from './components/FeedPost';
 
 const FeedView: React.FC = () => {
   return (
@@ -42,9 +42,9 @@ const FeedView: React.FC = () => {
               comments={78}
               postType="code"
               code={{
-                line1: \'const result = items\',
-                line2: \'  .filter(Boolean)\',\
-                line3: \'  .map(transform);\',\
+                line1: 'const result = items',
+                line2: '  .filter(Boolean)',
+                line3: '  .map(transform);',
               }}
             />
             <FeedPost
