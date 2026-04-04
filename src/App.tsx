@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import ChatView from './components/ChatView';
+import ChatListContainer from './components/ChatListContainer';
+import ChatRoomView from './components/ChatRoomView';
+import ChatSubNav from './components/ChatSubNav';
 import NavigationTabs from './components/NavigationTabs';
 import TopBarV1 from './components/TopBar/TopBarV1';
 
 const AppContent: React.FC = () => {
   const [selectedNavId, setSelectedNavId] = useState<string | null>('chat');
+  const [selectedChatSubNavId, setSelectedChatSubNavId] = useState<string | null>('chat');
   const [selectedChat, setSelectedChat] = useState<any | null>(null); // Replace 'any' with actual Chat type
 
   // This state would typically come from a global state management or context
@@ -15,48 +18,27 @@ const AppContent: React.FC = () => {
       {/* Col 1 - NavigationTabs (PC) */}
       <NavigationTabs selectedNavId={selectedNavId} onSelectNav={setSelectedNavId} isMobile={false} />
 
-      {/* Col 2 - ChatView Container */}
-      <div
-        className={`h-full shrink-0 flex flex-col overflow-hidden
-          lg:w-[420px] lg:min-w-[380px] lg:max-w-[480px] w-full
-          ${(selectedChat || selectedNavId) ? 'hidden lg:flex' : 'flex'}`}
-        style={{ backgroundColor: 'var(--background)', borderRight: '1px solid rgba(var(--border), 0.1)' }}
-      >
-        {/* Mobile TopBar and NavigationTabs - Conditional Rendering */}
-        <div className="lg:hidden shrink-0" style={{ backgroundColor: 'var(--background)', borderBottom: '1px solid rgba(var(--border), 0.1)' }}>
-          <div className="px-3 pt-3 pb-3 flex items-center justify-between">
-            {/* Mobile TopBar content - simplified for now */}
-            <span className="font-bold">Mobile Header</span>
-            {/* Add search, contacts, notification, settings icons */}
-          </div>
-          <NavigationTabs selectedNavId={selectedNavId} onSelectNav={setSelectedNavId} isMobile={true} hide={selectedChat !== null} />
-        </div>
+      {/* Col 2 - ChatListContainer */}
+      <ChatListContainer
+        searchQuery=""
+        onChatSelect={setSelectedChat}
+        onScroll={() => {}}
+        onToggleCollapse={() => {}}
+        onCategoryChange={() => {}}
+        onAddFriend={() => {}}
+        className={`
+          h-full shrink-0 flex flex-col overflow-hidden
+          lg:w-[320px] lg:min-w-[280px] lg:max-w-[380px]
+          ${selectedNavId === 'chat' ? 'flex' : 'hidden lg:flex'}
+        `}
+      />
 
-        {/* ChatView component */}
-        {showChatList && (
-          <ChatView
-            searchQuery=""
-            onChatSelect={setSelectedChat}
-            onScroll={() => {}}
-            onToggleCollapse={() => {}}
-            onCategoryChange={() => {}}
-            onAddFriend={() => {}}
-          />
+      {/* Col 3 & 4 - ChatSubNav and ChatRoomView */}
+      <div className="flex-1 flex flex-row overflow-hidden min-w-0">
+        {selectedNavId === 'chat' && (
+          <ChatSubNav selectedNavId={selectedChatSubNavId} onSelectNav={setSelectedChatSubNavId} />
         )}
-      </div>
-
-      {/* Col 3 & 4 - Placeholder for Sidebar and ChatRoomView / FeedView */}
-      <div className="flex-1 flex flex-col overflow-hidden min-w-0"
-        style={{ backgroundColor: 'var(--background)' }}>
-        {selectedChat ? (
-          <div className="flex items-center justify-center h-full text-muted-foreground">Chat Room View for {selectedChat.name}</div>
-        ) : selectedNavId === 'chat' && !showChatList ? (
-          <div className="flex items-center justify-center h-full text-muted-foreground">Select a chat to view messages</div>
-        ) : selectedNavId && selectedNavId !== 'chat' ? (
-          <div className="flex items-center justify-center h-full text-muted-foreground">Content for {selectedNavId}</div>
-        ) : (
-          <div className="flex items-center justify-center h-full text-muted-foreground">Welcome!</div>
-        )}
+        <ChatRoomView selectedChat={selectedChat} selectedChatSubNavId={selectedChatSubNavId} />
       </div>
     </div>
   );
