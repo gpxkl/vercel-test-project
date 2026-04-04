@@ -30,7 +30,7 @@ const ChatView: React.FC<ChatViewProps> = ({
   onCategoryChange: propOnCategoryChange,
   onAddFriend,
   className,
-  ...
+  ...rest
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<ExtendedChatCategory>('all');
   const [showCreateMenu, setShowCreateMenu] = useState(false);
