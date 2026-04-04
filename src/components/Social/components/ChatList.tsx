@@ -3,7 +3,7 @@ import ChatItem from './ChatItem';
 
 const ChatList: React.FC = () => {
   return (
-    <div className="hidden lg:flex flex-col w-[420px] shrink-0 border-r border-[var(--border)] bg-[var(--background)]">
+    <div className="flex flex-col w-[280px] shrink-0 border-r border-[var(--border)] bg-[var(--background)]">
       <div className="flex items-center h-14 px-4 border-b border-[var(--border)]">
         <span className="text-base font-bold text-[var(--foreground)]">聊天列表</span>
       </div>
