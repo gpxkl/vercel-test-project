@@ -10,7 +10,7 @@ const Badge: React.FC<BadgeProps> = ({
   className,
   variant = 'default',
   size = 'md',
-  ...
+  ...rest
 }) => {
   const baseClasses = 'inline-flex items-center justify-center font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2';
 

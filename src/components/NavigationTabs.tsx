@@ -1,9 +1,9 @@
 import React from 'react';
 import { MessageSquare, Package, Briefcase, Hash, Image, Folder } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../../lib/utils';
-import CisUnreadBadge from '../Notification/CisUnreadBadge';
-import { NavigationTabItem } from '../../types/chat';
+import { cn } from '../lib/utils';
+import CisUnreadBadge from './Notification/CisUnreadBadge';
+import { NavigationTabItem } from '../types/chat';
 
 interface NavigationTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   selectedNavId: string | null;
@@ -53,7 +53,7 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({
   isMobile,
   hide = false,
   className,
-  ...
+  ...rest
 }) => {
   const renderTabButton = (item: NavigationTabItem) => {
     const isActive = selectedNavId === item.id;
@@ -124,7 +124,6 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({
               className
             )}
             style={{ backgroundColor: 'var(--background)' }}
-            {...rest}
           >
             {navigationItems.slice(0, 3).map(renderTabButton)} {/* Only Chat, GP, Items for mobile bottom nav */}
           </motion.div>

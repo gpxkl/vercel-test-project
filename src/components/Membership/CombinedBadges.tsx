@@ -19,7 +19,7 @@ const CombinedBadges: React.FC<CombinedBadgesProps> = ({
   size = 'md',
   spacing = 'normal',
   className,
-  ...
+  ...rest
 }) => {
   const gapClass = spacing === 'tight' ? 'gap-1' : 'gap-2';
 

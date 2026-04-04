@@ -18,7 +18,7 @@ const TopBarV1: React.FC<TopBarV1Props> = ({
   notifications,
   expProgress,
   className,
-  ...
+  ...rest
 }) => {
   const expPercentage = Math.round(expProgress * 100);
 

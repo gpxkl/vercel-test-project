@@ -1,15 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pin, Check, Trash2, Users, Hash, Mic, Volume2 } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import Avatar from '../ui/avatar';
-import ChatNotificationIndicator from '../Notification/ChatNotificationIndicator';
-import CombinedBadges from '../Membership/CombinedBadges';
-import VerifiedBadge from '../Membership/VerifiedBadge';
-import { Chat, ExtendedChatCategory } from '../../types/chat';
-import { getPresenceColor } from '../../lib/mockData'; // For online status color
+import { cn } from '../lib/utils';
+import Avatar from './ui/avatar';
+import ChatNotificationIndicator from './Notification/ChatNotificationIndicator';
+import CombinedBadges from './Membership/CombinedBadges';
+import VerifiedBadge from './Membership/VerifiedBadge';
+import { Chat, ExtendedChatCategory } from '../types/chat';
+import { getPresenceColor } from '../lib/mockData'; // For online status color
+import CisUnreadBadge from './Notification/CisUnreadBadge';
 
-interface SwipeableChatItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SwipeableChatItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'> {
   chat: Chat;
   category: ExtendedChatCategory;
   onPin: (chatId: string) => void;
@@ -33,7 +34,7 @@ const SwipeableChatItem: React.FC<SwipeableChatItemProps> = ({
   onDelete,
   onClick,
   className,
-  ...
+  ...rest
 }) => {
   const [offset, setOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -41,7 +42,7 @@ const SwipeableChatItem: React.FC<SwipeableChatItemProps> = ({
   const itemRef = useRef<HTMLDivElement>(null);
   const startX = useRef(0);
   const currentX = useRef(0);
-  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  const longPressTimer = useRef<number | null>(null);
   const isLongPress = useRef(false);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -293,6 +294,7 @@ const SwipeableChatItem: React.FC<SwipeableChatItemProps> = ({
       ref={itemRef}
       className={cn('relative overflow-hidden border-b border-gray-100', className)}
       style={{ touchAction: 'pan-y' }}
+      {...rest}
     >
       {/* Background Operation Layer */}
       <div

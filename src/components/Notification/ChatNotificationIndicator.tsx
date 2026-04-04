@@ -12,7 +12,7 @@ const ChatNotificationIndicator: React.FC<ChatNotificationIndicatorProps> = ({
   hasMention,
   unreadCount = 0,
   className,
-  ...
+  ...rest
 }) => {
   const showIndicator = hasMention || unreadCount > 0;
 

@@ -2,11 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { Plus, Users, UserPlus, Server, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
-import { cn } from '../../lib/utils';
+import { cn } from '../lib/utils';
 import TabSwitcher from './TabSwitcher';
 import ChatList from './ChatList';
-import { Chat, ExtendedChatCategory, QuickActionGroup, QuickActionOption } from '../../types/chat';
-import { mockFriendChats, mockGroupChats, mockServerChannels } from '../../lib/mockData';
+import { Chat, ExtendedChatCategory, QuickActionGroup, QuickActionOption } from '../types/chat';
+import { mockFriendChats, mockGroupChats, mockServerChannels } from '../lib/mockData';
 
 // Modal imports
 import CreateGroupModal from './Modals/CreateGroupModal';
@@ -152,9 +152,9 @@ const ChatView: React.FC<ChatViewProps> = ({
   ];
 
   const tabCategories = [
-    { id: 'all', label: '全部', notifications: allChats.length }, // Example, adjust logic for actual counts
-    { id: 'friends', label: '个人/群组', notifications: allChats.filter(c => c.type === 'dm' || c.type === 'group').length },
-    { id: 'gp', label: '社群', notifications: allChats.filter(c => c.type === 'server_channel').length },
+    { id: 'all' as ExtendedChatCategory, label: '全部', notifications: allChats.length },
+    { id: 'friends' as ExtendedChatCategory, label: '个人/群组', notifications: allChats.filter(c => c.type === 'dm' || c.type === 'group').length },
+    { id: 'gp' as ExtendedChatCategory, label: '社群', notifications: allChats.filter(c => c.type === 'server_channel').length },
   ];
 
   return (
@@ -219,7 +219,7 @@ const ChatView: React.FC<ChatViewProps> = ({
                   <div className="px-4 py-1 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                     {group.title}
                   </div>
-                  {group.options.map((option) => (
+                  {group.options.map((option: QuickActionOption) => (
                     <motion.button
                       key={option.id}
                       className="w-full px-4 py-3 flex items-start gap-3 text-left hover:bg-muted/50"

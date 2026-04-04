@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useBabelInterop": true,
+
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
@@ -21,5 +21,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "references": [{"path": "./tsconfig.node.json"}]
+
 }

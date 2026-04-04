@@ -1,4 +1,4 @@
-import { Chat, MemberLevel } from '../types/chat';
+import { Chat, MemberLevel, ChatCategory } from '../types/chat';
 
 const mockMemberLevel: MemberLevel = { level: 80, name: '黄金会员' };
 

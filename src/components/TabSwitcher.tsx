@@ -1,7 +1,6 @@
 import React from 'react';
-import { Bell } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import { ExtendedChatCategory } from '../../types/chat';
+import { cn } from '../lib/utils';
+import { ExtendedChatCategory } from '../types/chat';
 
 interface TabSwitcherProps extends React.HTMLAttributes<HTMLDivElement> {
   categories: {
@@ -20,7 +19,7 @@ const TabSwitcher: React.FC<TabSwitcherProps> = ({
   onCategoryChange,
   centered = false,
   className,
-  ...
+  ...rest
 }) => {
   return (
     <div

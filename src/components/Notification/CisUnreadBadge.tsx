@@ -11,7 +11,7 @@ const CisUnreadBadge: React.FC<CisUnreadBadgeProps> = ({
   count,
   size = 'md',
   className,
-  ...
+  ...rest
 }) => {
   const displayCount = count > 99 ? '99+' : count;
   const minWidthClass = size === 'sm' ? 'min-w-[22px] h-[22px]' : 'min-w-[28px] h-7';

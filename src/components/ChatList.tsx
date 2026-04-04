@@ -1,7 +1,7 @@
 import React from 'react';
-import { Chat, ExtendedChatCategory } from '../../types/chat';
+import { Chat, ExtendedChatCategory } from '../types/chat';
 import SwipeableChatItem from './SwipeableChatItem';
-import { cn } from '../../lib/utils';
+import { cn } from '../lib/utils';
 
 interface ChatListProps extends React.HTMLAttributes<HTMLDivElement> {
   chats: Chat[];
@@ -20,7 +20,7 @@ const ChatList: React.FC<ChatListProps> = ({
   onReadChat,
   onDeleteChat,
   className,
-  ...
+  ...rest
 }) => {
   if (chats.length === 0) {
     return (

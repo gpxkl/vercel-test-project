@@ -14,7 +14,7 @@ const Avatar: React.FC<AvatarProps> = ({
   fallback,
   size = 'md',
   className,
-  ...
+  ...rest
 }) => {
   const sizeClasses = {
     sm: 'w-8 h-8 text-sm',

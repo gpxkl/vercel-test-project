@@ -13,7 +13,7 @@ const CisMemberLevelBadge: React.FC<CisMemberLevelBadgeProps> = ({
   customLevelName,
   size = 'md',
   className,
-  ...
+  ...rest
 }) => {
   if (!memberLevel || !memberLevel.level) return null;
 

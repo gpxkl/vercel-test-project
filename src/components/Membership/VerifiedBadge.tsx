@@ -10,7 +10,7 @@ interface VerifiedBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 const VerifiedBadge: React.FC<VerifiedBadgeProps> = ({
   size = 14,
   className,
-  ...
+  ...rest
 }) => {
   return (
     <div className={cn('inline-flex items-center justify-center', className)} {...rest}>
