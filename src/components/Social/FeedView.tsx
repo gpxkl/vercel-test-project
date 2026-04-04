@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, MessageCircle, Rss, User, Settings, PlusCircle, Search, Bell, Bookmark, Share, Image as ImageIcon, Heart, Repeat2 } from 'lucide-react';
+import { Home, MessageCircle, Rss, User, Settings, PlusCircle, Search, Bell, Bookmark, Share, Image as ImageIcon } from 'lucide-react';
 
 const FeedView: React.FC = () => {
   return (
@@ -57,7 +57,7 @@ const FeedView: React.FC = () => {
         </div>
 
         {/* Sidebar - Col3 (mobile: absolute inset-0 z-50 for col3+col4 container) */}
-        <div classNameName="absolute lg:relative inset-0 lg:inset-auto z-50 lg:z-auto flex flex-1 overflow-hidden min-w-0">
+        <div className="absolute lg:relative inset-0 lg:inset-auto z-50 lg:z-auto flex flex-1 overflow-hidden min-w-0">
         <div className="flex flex-col items-center py-4 gap-5 w-12 lg:w-[60px] shrink-0 rounded-tr-3xl rounded-br-3xl bg-[#ECE9E2CC] backdrop-blur-xl shadow-lg">
           <PlusCircle size={24} className="text-[#6B7280]" />
           <Search size={24} className="text-[#6B7280]" />
