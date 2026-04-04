@@ -14,4 +14,9 @@
   --border: #D1CFC9; /* Changed to match PEN for topbar/chatlist/post borders */
   --cis-glass-white: rgba(255,255,255,0.6);
   --card: #FFFFFF; /* Added for MediaCard background as per SDD section 2.2.C6 */
+  --muted-foreground: #6B7280;
+  --tab-inactive-background: #F3F4F6;
+  --code-background: #1E293B;
+  --code-foreground: #E2E8F0;
+  --code-highlight: #A5F3FC;
 }
