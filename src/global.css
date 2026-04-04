@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ECE9E2;
+    --foreground: #2B2F3A;
+    --primary: #2B7D8E;
+    --secondary: #CD180B;
+    --destructive: #A53E37;
+    --muted: #DED6D3;
+    --muted-foreground: rgba(0,0,0,0.5);
+    --border: #2B7D8E;
+    --cis-glass-white: rgba(255,255,255,0.6);
+    --card: #FFFFFF; /* Assuming card background is white based on Pen design */
+  }
+}
