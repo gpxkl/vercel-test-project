@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217.2 32.6% 17.5%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --background: 210 40% 96.1%;
+  --foreground: 222.2 47.4% 11.2%;
+  --card-background: 0 0% 100%;
+  --border: 214.3 31.8% 91.4%;
+  
+  --cis-green: 142.1 76.2% 36.3%; /* Example HSL for a shade of green */
+  --cis-orange: 26.3 95% 54.3%; /* Example HSL for a shade of orange */
+  --cis-purple: 250 80% 60%; /* Example HSL for a shade of purple */
+  --cis-olive: 80 50% 40%; /* Example HSL for a shade of olive */
+  --cis-bg-muted: 210 40% 90%; /* Example HSL for a muted background */
+
+  /* Add other custom properties as needed */
+}
