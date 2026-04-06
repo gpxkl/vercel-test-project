@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社交動態 FeedView</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #ECE9E2;
+            --foreground: #1A1A1A;
+            --primary: #3B82F6;
+            --secondary: #CD180B;
+            --destructive: #A53E37;
+            --muted: #D1CFC9;
+            --muted-foreground: #6B7280;
+            --border: #D1CFC9;
+            --cis-glass-white: rgba(255, 255, 255, 0.6);
+            --card-bg: #FFFFFF;
+            --code-bg: #1E293B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* TopBar */
+        .topbar {
+            height: 92px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .topbar-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--foreground);
+        }
+
+        .topbar-spacer {
+            flex: 1;
+            height: 1px;
+        }
+
+        /* Content Row */
+        .content-row {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* NavTabs */
+        .nav-tabs {
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 24px;
+            background: var(--background);
+            border-right: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--muted-foreground);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-icon:hover {
+            color: var(--foreground);
+        }
+
+        .nav-icon.active {
+            color: var(--primary);
+        }
+
+        .nav-label {
+            font-size: 10px;
+            color: var(--primary);
+            margin-top: -16px;
+        }
+
+        /* ChatList */
+        .chat-list {
+            width: 420px;
+            display: flex;
+            flex-direction: column;
+            background: var(--background);
+            border-right: 1px solid var(--border);
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .chat-header {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .chat-header-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--foreground);
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .chat-item:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--muted);
+            flex-shrink: 0;
+        }
+
+        .chat-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        .chat-message {
+            font-size: 12px;
+            color: var(--muted-foreground);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 20px;
+            background: rgba(236, 233, 226, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 0 24px 24px 0;
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
+            flex-shrink: 0;
+        }
+
+        .sidebar-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--muted-foreground);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .sidebar-icon:hover {
+            color: var(--foreground);
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .content-header {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .content-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--foreground);
+        }
+
+        /* Tab Bar */
+        .tab-bar {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .tab-item {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-item.primary {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .tab-item.secondary {
+            background: #F3F4F6;
+            color: var(--muted-foreground);
+        }
+
+        .tab-item.secondary:hover {
+            background: #E5E7EB;
+        }
+
+        /* Feed */
+        .feed {
+            flex: 1;
+            padding: 16px;
+            gap: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Post Card */
+        .post {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .post-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .post-avatar.blue { background: #3B82F6; }
+        .post-avatar.orange { background: #F59E0B; }
+        .post-avatar.purple { background: #8B5CF6; }
+        .post-avatar.green { background: #10B981; }
+
+        .post-username {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        .post-spacer {
+            flex: 1;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: var(--muted-foreground);
+        }
+
+        .post-content {
+            font-size: 14px;
+            color: var(--foreground);
+            line-height: 1.5;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .code-line {
+            color: #E2E8F0;
+        }
+
+        .code-line.cyan {
+            color: #A5F3FC;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            width: 100%;
+            height: 160px;
+            background: #F3F4F6;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-placeholder svg {
+            width: 32px;
+            height: 32px;
+            color: var(--muted);
+        }
+
+        /* Post Actions */
+        .post-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--muted-foreground);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .action-item:hover {
+            color: var(--primary);
+        }
+
+        .action-item svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .action-item.liked {
+            color: #EF4444;
+        }
+
+        .action-spacer {
+            flex: 1;
+        }
+
+        /* Create Post Input */
+        .create-post-input {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .create-post-input:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .create-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--muted);
+            flex-shrink: 0;
+        }
+
+        .create-placeholder {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted-foreground);
+            padding: 10px 0;
+        }
+
+        .create-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .create-btn {
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted-foreground);
+            pointer-events: none;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--muted);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-input {
+            width: 100%;
+            min-height: 150px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            background: transparent;
+        }
+
+        .modal-input::placeholder {
+            color: var(--muted-foreground);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: var(--muted);
+            color: var(--foreground);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563EB;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--foreground);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-tabs {
+                display: none;
+            }
+
+            .chat-list {
+                width: 100%;
+                position: fixed;
+                left: 0;
+                top: 92px;
+                bottom: 0;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .chat-list.active {
+                transform: translateX(0);
+            }
+
+            .sidebar {
+                width: 48px;
+            }
+
+            .content {
+                width: 100%;
+            }
+
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+                height: 56px;
+                background: var(--card-bg);
+                border-bottom: 1px solid var(--border);
+                gap: 12px;
+            }
+
+            .mobile-menu-btn {
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .mobile-header {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- TopBar -->
+        <div class="topbar">
+            <span class="topbar-label">LV80</span>
+            <div class="topbar-spacer"></div>
+            <span class="topbar-label">GP200</span>
+            <div class="topbar-spacer"></div>
+            <span class="topbar-label">EXP</span>
+        </div>
+
+        <!-- Content Row -->
+        <div class="content-row">
+            <!-- NavTabs -->
+            <div class="nav-tabs">
+                <i data-lucide="home" class="nav-icon"></i>
+                <i data-lucide="message-circle" class="nav-icon"></i>
+                <i data-lucide="rss" class="nav-icon active"></i>
+                <span class="nav-label">動態</span>
+                <i data-lucide="user" class="nav-icon"></i>
+                <i data-lucide="settings" class="nav-icon"></i>
+            </div>
+
+            <!-- ChatList -->
+            <div class="chat-list" id="chatList">
+                <div class="chat-header">
+                    <span class="chat-header-title">聊天列表</span>
+                </div>
+                <div class="chat-item" data-chat="a">
+                    <div class="chat-avatar"></div>
+                    <div class="chat-info">
+                        <span class="chat-name">用戶A</span>
+                        <span class="chat-message">最近在做什麼項目？</span>
+                    </div>
+                </div>
+                <div class="chat-item" data-chat="b">
+                    <div class="chat-avatar"></div>
+                    <div class="chat-info">
+                        <span class="chat-name">用戶B</span>
+                        <span class="chat-message">明天一起吃飯嗎？</span>
+                    </div>
+                </div>
+                <div class="chat-item" data-chat="c">
+                    <div class="chat-avatar"></div>
+                    <div class="chat-info">
+                        <span class="chat-name">用戶C</span>
+                        <span class="chat-message">已收到，謝謝！</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <i data-lucide="plus-circle" class="sidebar-icon"></i>
+                <i data-lucide="search" class="sidebar-icon"></i>
+                <i data-lucide="bell" class="sidebar-icon"></i>
+                <i data-lucide="bookmark" class="sidebar-icon"></i>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="mobile-header">
+                    <i data-lucide="menu" class="mobile-menu-btn" id="menuBtn"></i>
+                    <span class="content-title">社交動態</span>
+                </div>
+                <div class="content-header">
+                    <span class="content-title">社交動態</span>
+                </div>
+
+                <!-- Tab Bar -->
+                <div class="tab-bar">
+                    <div class="tab-item primary">推薦</div>
+                    <div class="tab-item secondary">關注</div>
+                    <div class="tab-item secondary">最新</div>
+                </div>
+
+                <!-- Feed -->
+                <div class="feed">
+                    <!-- Post 1 -->
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-avatar blue"></div>
+                            <span class="post-username">Tech達人</span>
+                            <div class="post-spacer"></div>
+                            <span class="post-time">3h</span>
+                        </div>
+                        <p class="post-content">分享一個超棒的 TypeScript 技巧，讓你的代碼更加簡潔高效！</p>
+                        <div class="code-block">
+                            <div class="code-line">const result = items</div>
+                            <div class="code-line cyan">  .filter(Boolean)</div>
+                            <div class="code-line cyan">  .map(transform);</div>
+                        </div>
+                        <div class="post-actions">
+                            <div class="action-item liked" data-action="like">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                <span>456</span>
+                            </div>
+                            <div class="action-item" data-action="comment">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                </svg>
+                                <span>78</span>
+                            </div>
+                            <div class="action-item" data-action="share">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                                    <polyline points="16 6 12 2 8 6"/>
+                                    <line x1="12" y1="2" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 2 -->
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-avatar orange"></div>
+                            <span class="post-username">美食博主</span>
+                            <div class="post-spacer"></div>
+                            <span class="post-time">5h</span>
+                        </div>
+                        <p class="post-content">週末美食推薦！這家餐廳的牛排真的太好吃了，強烈推薦給大家～</p>
+                        <div class="image-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <div class="post-actions">
+                            <div class="action-item" data-action="like">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                                <span>234</span>
+                            </div>
+                            <div class="action-item" data-action="comment">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                </svg>
+                                <span>45</span>
+                            </div>
+                            <div class="action-item" data-action="share">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                                    <polyline points="16 6 12 2 8 6"/>
+                                    <line x1="12" y1="2" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 3 -->
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-avatar purple"></div>
+                            <span class="post-username">設計師小美</span>
+                            <div class="post-spacer"></div>
+                            <span class="post-time">7h</span>
+                        </div>
+                        <p class="post-content">剛完成的 UI 設計稿，大家覺得怎麼樣？歡迎給我建議！</p>
+                        <div class="image-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <div class="post-actions">
+                            <div class="action-item" data-action="like">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                                <span>128</span>
+                            </div>
+                            <div class="action-item" data-action="comment">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                </svg>
+                                <span>32</span>
+                            </div>
+                            <div class="action-item" data-action="share">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                                    <polyline points="16 6 12 2 8 6"/>
+                                    <line x1="12" y1="2" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 4 -->
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-avatar green"></div>
+                            <span class="post-username">旅行愛好者</span>
+                            <div class="post-spacer"></div>
+                            <span class="post-time">12h</span>
+                        </div>
+                        <p class="post-content">日本賞櫻攻略來了！東京近郊最適合賞櫻的地點推薦🌸</p>
+                        <div class="image-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <div class="post-actions">
+                            <div class="action-item" data-action="like">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                                <span>892</span>
+                            </div>
+                            <div class="action-item" data-action="comment">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                </svg>
+                                <span>156</span>
+                            </div>
+                            <div class="action-item" data-action="share">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                                    <polyline points="16 6 12 2 8 6"/>
+                                    <line x1="12" y1="2" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">建立新討論串</span>
+                <div class="modal-close" id="modalClose">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <textarea class="modal-input" placeholder="分享你的想法..." id="postInput"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">取消</button>
+                <button class="btn btn-primary" id="publishBtn">發布</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        lucide.createIcons();
+
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const publishBtn = document.getElementById('publishBtn');
+        const postInput = document.getElementById('postInput');
+        const toast = document.getElementById('toast');
+        const menuBtn = document.getElementById('menuBtn');
+        const chatList = document.getElementById('chatList');
+        const navIcons = document.querySelectorAll('.nav-icon');
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function openModal() {
+            modalOverlay.classList.add('active');
+            postInput.focus();
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            postInput.value = '';
+        }
+
+        function publishPost() {
+            const content = postInput.value.trim();
+            if (!content) {
+                showToast('請輸入內容');
+                return;
+            }
+            closeModal();
+            showToast('發布成功！');
+            
+            const feed = document.querySelector('.feed');
+            const newPost = document.createElement('div');
+            newPost.className = 'post';
+            newPost.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar blue"></div>
+                    <span class="post-username">你</span>
+                    <div class="post-spacer"></div>
+                    <span class="post-time">現在</span>
+                </div>
+                <p class="post-content">${content}</p>
+                <div class="post-actions">
+                    <div class="action-item liked" data-action="like">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <span>1</span>
+                    </div>
+                    <div class="action-item" data-action="comment">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        </svg>
+                        <span>0</span>
+                    </div>
+                    <div class="action-item" data-action="share">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                            <polyline points="16 6 12 2 8 6"/>
+                            <line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                </div>
+            `;
+            feed.insertBefore(newPost, feed.firstChild);
+            lucide.createIcons();
+            attachActionListeners(newPost);
+        }
+
+        function attachActionListeners(element) {
+            const likeBtn = element.querySelector('[data-action="like"]');
+            if (likeBtn) {
+                likeBtn.addEventListener('click', () => {
+                    const isLiked = likeBtn.classList.contains('liked');
+                    const countSpan = likeBtn.querySelector('span');
+                    let count = parseInt(countSpan.textContent);
+                    
+                    if (isLiked) {
+                        likeBtn.classList.remove('liked');
+                        likeBtn.querySelector('svg').setAttribute('fill', 'none');
+                        countSpan.textContent = count - 1;
+                    } else {
+                        likeBtn.classList.add('liked');
+                        likeBtn.querySelector('svg').setAttribute('fill', 'currentColor');
+                        countSpan.textContent = count + 1;
+                    }
+                });
+            }
+
+            const commentBtn = element.querySelector('[data-action="comment"]');
+            if (commentBtn) {
+                commentBtn.addEventListener('click', () => {
+                    showToast('評論功能即將上線');
+                });
+            }
+
+            const shareBtn = element.querySelector('[data-action="share"]');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', () => {
+                    showToast('連結已複製');
+                });
+            }
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        publishBtn.addEventListener('click', publishPost);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        menuBtn.addEventListener('click', () => {
+            chatList.classList.toggle('active');
+        });
+
+        navIcons.forEach(icon => {
+            icon.addEventListener('click', () => {
+                navIcons.forEach(i => i.classList.remove('active'));
+                icon.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab-item').forEach(t => {
+                    t.classList.remove('primary');
+                    t.classList.add('secondary');
+                });
+                tab.classList.remove('secondary');
+                tab.classList.add('primary');
+            });
+        });
+
+        document.querySelectorAll('.action-item').forEach(btn => {
+            attachActionListeners(btn.closest('.post') || btn.parentElement);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
