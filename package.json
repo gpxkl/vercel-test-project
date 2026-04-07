@@ -1,0 +1,23 @@
+{
+  "name": "baidu-clone",
+  "version": "1.0.0",
+  "description": "A simple Baidu clone with login/register functionality.",
+  "main": "script.js",
+  "scripts": {
+    "build": "esbuild LoginRegister.tsx --bundle --outfile=LoginRegister.js --external:react --external:react-dom --jsx=automatic",
+    "start": "http-server ./project -p 3000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "esbuild": "^0.19.0",
+    "http-server": "^14.1.1"
+  }
+}
